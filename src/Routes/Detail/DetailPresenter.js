@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Loader from '../../Components/Loader';
 import { Helmet } from 'react-helmet';
 import Messsage from './../../Components/Message';
+import Season from './../../Components/Season';
 
 const Container = styled.div`
   height: calc(100vh - 50px);
@@ -84,12 +85,30 @@ const Button = styled.button`
 const VideoContainer = styled.div`
   display: flex;
   flex-direction: column;
+  margin-right: 50px;
 `;
 const Video = styled.iframe`
   width: 420;
   height: 345;
 `;
 const VideoPoster = styled.div``;
+
+const SeasonContainer = styled.div`
+  display: flex;
+  width: 400%;
+  height: 400%;
+  display: flex;
+  flex-direction: column;
+`;
+
+const SeasonCover = styled.div`
+  background-image: url(${(props) => props.bgImage});
+  background-position: center center;
+  background-size: cover;
+  border-radius: 5px;
+  width: 120px;
+  height: 120px;
+`;
 
 const DetailPresenter = ({ result, loading, error }) =>
   loading ? (
@@ -161,6 +180,7 @@ const DetailPresenter = ({ result, loading, error }) =>
             </Info>
           </InfoContainer>
           <Overview>{result.overview}</Overview>
+
           <Data>
             {result?.videos?.results && result.videos.results.length > 0 && (
               <Tab>Videos</Tab>
@@ -179,7 +199,30 @@ const DetailPresenter = ({ result, loading, error }) =>
                 ))}
             </VideoContainer>
           </Data>
+          <Data>
+            {result?.seasons && result.seasons.length > 0 && <Tab>Seasons</Tab>}
+            <SeasonContainer>
+              {result?.seasons &&
+                result.seasons.map((season, index) => (
+                  <SeasonContainer>
+                    <SeasonCover
+                      bgImage={
+                        season?.poster_path
+                          ? `https://image.tmdb.org/t/p/original/${season.poster_path}`
+                          : require('../../Assets/logo.jpg')
+                      }
+                    />
+                    <Season
+                      name={season.name}
+                      episode_count={season.episode_count}
+                      overview={season.overview}
+                    />
+                  </SeasonContainer>
+                ))}
+            </SeasonContainer>
+          </Data>
         </Data>
+
         <Data>
           <Tab>Country</Tab>
           <Info>
