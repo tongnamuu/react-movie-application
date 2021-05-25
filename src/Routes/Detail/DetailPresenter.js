@@ -81,6 +81,16 @@ const Button = styled.button`
   background-color: inherit;
 `;
 
+const VideoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+const Video = styled.iframe`
+  width: 420;
+  height: 345;
+`;
+const VideoPoster = styled.div``;
+
 const DetailPresenter = ({ result, loading, error }) =>
   loading ? (
     <>
@@ -151,6 +161,24 @@ const DetailPresenter = ({ result, loading, error }) =>
             </Info>
           </InfoContainer>
           <Overview>{result.overview}</Overview>
+          <Data>
+            {result?.videos?.results && result.videos.results.length > 0 && (
+              <Tab>Videos</Tab>
+            )}
+            <VideoContainer>
+              {result?.videos?.results &&
+                result.videos.results.map((video, index) => (
+                  <VideoPoster>
+                    <Video
+                      id={video.id}
+                      title={video.id}
+                      src={`https://www.youtube.com/embed/${video.key}`}
+                    ></Video>
+                    {video.name}
+                  </VideoPoster>
+                ))}
+            </VideoContainer>
+          </Data>
         </Data>
         <Data>
           <Tab>Country</Tab>
