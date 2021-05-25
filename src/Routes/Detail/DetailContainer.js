@@ -11,7 +11,7 @@ export default class extends React.Component {
     this.state = {
       result: null,
       error: null,
-      isMovie: pathname.includes('/movies/'),
+      isMovie: pathname.includes('/movie/'),
       loading: true,
     };
   }
@@ -24,19 +24,17 @@ export default class extends React.Component {
       history: { push },
     } = this.props;
     const parseId = Number(id);
-    const isMovie = this.state;
     if (isNaN(parseId)) {
       return push('/');
     }
     let result = null;
 
     try {
-      if (isMovie) {
+      if (this.state.isMovie) {
         ({ data: result } = await moviesApi.movieDetail(parseId));
       } else {
         ({ data: result } = await tvApi.showDetail(parseId));
       }
-      console.log(result);
     } catch {
       this.setState({ error: "Can't find anything" });
     } finally {
