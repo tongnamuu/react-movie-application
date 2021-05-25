@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Loader from '../../Components/Loader';
 import { Helmet } from 'react-helmet';
+import Messsage from './../../Components/Message';
 
 const Container = styled.div`
   height: calc(100vh - 50px);
@@ -17,6 +18,7 @@ const Content = styled.div`
   height: 100%;
   position: relative;
   z-index: 1;
+  padding-top: 10px;
 `;
 
 const Cover = styled.div`
@@ -35,6 +37,11 @@ const Data = styled.div`
 
 const Title = styled.h3`
   font-size: 32px;
+  margin-bottom: 10px;
+`;
+
+const Tab = styled.h5`
+  font-size: 20px;
   margin-bottom: 10px;
 `;
 
@@ -69,6 +76,11 @@ const Backdrop = styled.div`
   z-index: 0;
 `;
 
+const Button = styled.button`
+  color: yellowgreen;
+  background-color: inherit;
+`;
+
 const DetailPresenter = ({ result, loading, error }) =>
   loading ? (
     <>
@@ -77,7 +89,7 @@ const DetailPresenter = ({ result, loading, error }) =>
       </Helmet>
       <Loader />
     </>
-  ) : (
+  ) : result ? (
     <Container>
       <Helmet>
         <title>
@@ -127,11 +139,46 @@ const DetailPresenter = ({ result, loading, error }) =>
                     : `${genre.name}/`
                 )}
             </Info>
+            <Divider>⨀</Divider>
+            <Info>
+              <Button
+                onClick={() =>
+                  window.open(`https://www.imdb.com/title/${result.imdb_id}`)
+                }
+              >
+                IMDB LINK
+              </Button>
+            </Info>
           </InfoContainer>
           <Overview>{result.overview}</Overview>
         </Data>
+        <Data>
+          <Tab>Country</Tab>
+          <Info>
+            {result.production_countries &&
+              result.production_countries.map((country, index) =>
+                index === result.production_countries.length - 1
+                  ? country.name
+                  : `${country.name}, `
+              )}
+          </Info>
+        </Data>
+        <Data>
+          <Tab>Production Company</Tab>
+          <Info>
+            {result.production_companies &&
+              result.production_companies.map((company, index) =>
+                index === result.production_companies.length - 1
+                  ? company.name
+                  : `${company.name}, `
+              )}
+          </Info>
+        </Data>
       </Content>
+      {error && <Messsage color="#47bf6b" text={error}></Messsage>}
     </Container>
+  ) : (
+    <Content>Nothing Found</Content>
   );
 
 DetailPresenter.propTypes = {
