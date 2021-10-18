@@ -20,8 +20,10 @@
 
 ## Code Challenges
 
-- [ ] IMDB Link
-- [ ] Tabs inside of Movies / Show Details
-- [ ] Collections Link
-- [ ] /collections Router
-- [ ] Seasons of TV show
+- [x] IMDB Link
+- [x] Tabs inside of Movies / Show Details
+- [x] Collections Link
+- [x] /collections Router
+- [x] Seasons of TV show
+
+https://gracious-johnson-bd3748.netlify.app/
